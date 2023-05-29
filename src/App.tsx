@@ -4,22 +4,39 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import Header from './components/Header'
 
-function App() {
-  const [count, setCount] = useState(0)
+interface FormNameState {
+  inputName:string
+}
+
+
+export default function App() {
+  const [formName, setFormName] = useState()
+  const [names, setNames] = useState<string[]>([])
+
+  function handleSubmit(e){
+    console.log(formName)
+    console.log(names)
+    e.preventDefault()
+    names.push(formName)
+    setNames([...names].push(formName))
+
+  }
 
   return (
     <>
     <Header/>
-    <label htmlFor='names'>Name:</label>
-    <input id='names' type="text"></input>
-    <button>Add</button>
+    <form onSubmit={handleSubmit}>
+    <label htmlFor='inputName'>Name:</label>
+    <input type='text' name='inputName' required maxLength={20} onChange={e=>setFormName(e.target.value)}/>
+    <button type='submit' onSubmit={e=> handleSubmit(e)}>Add</button>
 
-        <button onClick={() => setCount((count) => count + 1)}>
+        {/* <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
-        </button>
+        </button> */}
+    </form>
        
     </>
   )
 }
 
-export default App
+// export default App
