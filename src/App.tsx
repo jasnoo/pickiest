@@ -27,25 +27,78 @@ export default function App() {
   }
 
   function pick() {
-    // if the user wants to pick individual people
-    if (isPerson) {
-      const chosen: Number[] = [];
-      if (count > chosen.length) {
-        console.log("count is too big");
+    // randomize the order of the names
+    // console.log(names);
+
+    const randomizeArrOrder = (arr: string[]) => {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        const temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
       }
-      while (chosen.length < count) {
-        let chosenIndex = Math.floor(Math.random() * names.length);
-        if (!chosen.includes(chosenIndex)) {
-          chosen.push(chosenIndex);
-        }
-        const chosenNames = chosen.map((x) => names[x]);
-        console.log(chosenNames);
-      }
-    }
-    // if the user wants to break out into groups
-    else {
-    }
+    };
+
+    let randomNames = names.slice();
+    randomizeArrOrder(randomNames);
+
+    console.log(randomNames.slice(0, count));
+    // console.log(names);
+    // const randomized = randomizeArrOrder(names);
+    // console.log(names);
+
+    // // let randomChoice = randomized.slice(0, count);
+    // console.log(randomized);
+    // console.log(randomChoice);
   }
+
+  // function pick() {
+  //   // if the user wants to pick individual people
+  //   if (isPerson) {
+  //     const chosen: Number[] = [];
+  //     if (count > names.length) {
+  //       console.log("count is too big");
+  //     } else {
+  //       while (chosen.length < count) {
+  //         let chosenIndex = Math.floor(Math.random() * names.length);
+  //         if (!chosen.includes(chosenIndex)) {
+  //           chosen.push(chosenIndex);
+  //         }
+  //         const chosenNames = chosen.map((x) => names[x]);
+  //         console.log(chosenNames);
+  //       }
+  //     }
+  //   }
+  //   // if the user wants to break out into groups
+  //   else {
+  //     const groupObj = {};
+  //     for (let i = 0; i < names.length; i++) {
+  //       let temp: string = i.toString();
+  //       groupObj[temp] = [];
+  //     }
+
+  //     let currentGroup = 0;
+
+  //     // create behavior that loops between the groups which will be keys with empty arr
+  //     let namesCopy = names.slice();
+  //     while (namesCopy.length > 0) {
+  //       let chosenIndex = Math.floor(Math.random() * namesCopy.length);
+  //       groupObj[currentGroup.toString()].push(namesCopy[chosenIndex]);
+  //       if (chosenIndex === 0) {
+  //         namesCopy = namesCopy.slice(1);
+  //       } else if (chosenIndex === namesCopy.length - 1) {
+  //         let lastValue = namesCopy.length - 1;
+  //         namesCopy = namesCopy.slice(0, lastValue);
+  //       } else {
+  //         namesCopy = namesCopy
+  //           .slice(0, chosenIndex)
+  //           .concat(namesCopy.slice(chosenIndex + 1));
+  //       }
+  //     }
+
+  //     // copy names and basically while name copy has a length > 0, loop past keys
+  //   }
+  // }
 
   function toggleIsPerson() {
     console.log("this is happening?");
@@ -86,8 +139,8 @@ export default function App() {
         <button type="submit" onSubmit={(e) => handleSubmit(e)}>
           Add
         </button>
-        <button onClick={() => pick()}>Pick</button>
       </form>
+      <button onClick={() => pick()}>Pick</button>
 
       <NameContainer names={names} />
     </>
