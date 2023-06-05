@@ -1,39 +1,27 @@
 import { useState } from "react";
 
 // count is count of chosen things
-function NameContainer({ names }) {
-  // const [chosenNames, setChosenNames] = useState(false);
+function NameContainer({ names, isPerson, count }) {
+  const containerText = isPerson ? "Individual" : "Group";
+  const plural = count > 1 ? "s" : "";
 
-  // function that determines which individual people to choose
-  // function choosePerson() {
-  //   if (isPerson) {
-  //     const chosen: Number[] = [];
-  //     while (chosen.length < count) {
-  //       let chosenIndex = Math.floor(Math.random() * names.length);
-  //       if (!chosen.includes(chosenIndex)) {
-  //         chosen.push(chosenIndex);
-  //       }
-
-  //       const chosenNames = chosen.map((x) => names[x]);
-  //       console.log(chosenNames);
-  //     }
-  //   }
-  // }
-
-  // choosePerson();
-
-  // function that determines groups
-
-  // function chooseGroups() {}
-
-  return (
-    <ul>
-      <h2>All Names</h2>
-      {names.map((x, i) => (
-        <li key={`name-${i}`}>{x}</li>
-      ))}
-    </ul>
-  );
+  if (names.length !== 0) {
+    return (
+      <>
+        <h2>{`Choose ${count} ${containerText}${plural} from:`}</h2>
+        <div className='itemsContainer'>
+          {names.map((x, i) => (
+            <div
+              className='items'
+              key={`name-${i}`}
+            >
+              {x}
+            </div>
+          ))}
+        </div>
+      </>
+    );
+  } else return <div />;
 }
 
 export default NameContainer;

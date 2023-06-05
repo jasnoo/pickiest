@@ -5,12 +5,14 @@ import "./App.css";
 import Header from "./components/Header";
 import Switch from "./components/Switch";
 import NameContainer from "./components/NameContainer";
+import Notification from "./components/Notification";
 
 export default function App() {
   // const [formName, setFormName] = useState<undefined | string>("");
   const [names, setNames] = useState<string[]>([]);
   const [isPerson, setIsPerson] = useState(true);
   const [count, setCount] = useState<number>(1);
+  const [error, setError] = useState<string | null>();
 
   const nameRef = useRef();
 
@@ -19,6 +21,12 @@ export default function App() {
   function handleSubmit(e) {
     e.preventDefault();
     //@ts-ignore
+    if (nameRef.current.value.length === 0) {
+      setError("Please add something to pick!");
+      setTimeout(() => setError(null), 5000);
+      return;
+    }
+
     const inputName: string = nameRef.current.value;
     const newNames: string[] = [...names, inputName];
     setNames(newNames);
@@ -27,9 +35,20 @@ export default function App() {
   }
 
   function pick() {
-    // randomize the order of the names
-    // console.log(names);
+    setError(null);
+    if (names.length === 0) {
+      setError("Nothing to pick!");
+      setTimeout(() => setError(null), 5000);
+    }
 
+    if (count > names.length) {
+      setError("There aren't enough to pick!");
+      setTimeout(() => setError(null), 5000);
+    }
+
+    // ADD VALIDATION FOR APPROPRIATE COUNT SELECTED BASED ON INPUTTED USERS
+
+    // randomize the order of the names
     const randomizeArrOrder = (arr: string[]) => {
       for (let i = arr.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -38,18 +57,33 @@ export default function App() {
         arr[j] = temp;
       }
     };
-
     let randomNames = names.slice();
     randomizeArrOrder(randomNames);
 
-    console.log(randomNames.slice(0, count));
-    // console.log(names);
-    // const randomized = randomizeArrOrder(names);
-    // console.log(names);
+    if (isPerson) {
+      console.log(randomNames.slice(0, count));
+    } else {
+      // find remainder of people
+      const perGroup = Math.floor(randomNames.length / count);
+      let remainder = randomNames.length % count;
 
-    // // let randomChoice = randomized.slice(0, count);
-    // console.log(randomized);
-    // console.log(randomChoice);
+      const groupObj = {};
+
+      for (let i = 0; i < count; i++) {
+        // loop to handle creating a given group
+
+        let start = perGroup * i;
+        let end = start + perGroup;
+        if (remainder > 0) {
+          end++;
+          remainder--;
+        }
+        // @ts-ignore
+        groupObj[`${i}`] = randomNames.slice(start, end);
+      }
+
+      console.log(groupObj);
+    }
   }
 
   // function pick() {
@@ -111,38 +145,61 @@ export default function App() {
 
       <Switch handleToggle={toggleIsPerson} />
 
-      <button onClick={() => setCount(count - 1)}>-</button>
-
-      <input
-        type="number"
-        name="count"
-        value={count}
-        required
-        maxLength={1}
-        onChange={(e) => setCount(Number(e.target.value))}
-      />
-
-      <button onClick={() => setCount(count + 1)}>+</button>
-
       {/* Form to add names */}
       <form onSubmit={handleSubmit}>
-        <label htmlFor="inputName">Name:</label>
+        {/* <label htmlFor="inputName">Name:</label> */}
         <input
-          type="text"
+          type='text'
           ref={nameRef}
-          name="inputName"
+          name='inputName'
           // value={formName}
-          required
           maxLength={20}
           // onChange={(e) => setFormName(e.target.value)}
         />
-        <button type="submit" onSubmit={(e) => handleSubmit(e)}>
+        <button
+          className='mainButton'
+          type='submit'
+          onSubmit={(e) => handleSubmit(e)}
+        >
           Add
         </button>
       </form>
-      <button onClick={() => pick()}>Pick</button>
 
-      <NameContainer names={names} />
+      <div className='pickCount'>
+        <button
+          className='countButton'
+          onClick={() => (count > 1 ? setCount(count - 1) : setCount(1))}
+        >
+          -
+        </button>
+        <input
+          type='number'
+          name='count'
+          value={count}
+          required
+          maxLength={1}
+          onChange={(e) => setCount(Number(e.target.value))}
+        />
+        <button
+          className='countButton'
+          onClick={() => setCount(count + 1)}
+        >
+          +
+        </button>
+      </div>
+      <button
+        className='mainButton'
+        onClick={() => pick()}
+      >
+        Pick
+      </button>
+      <Notification message={error} />
+      <NameContainer
+        names={names}
+        isPerson={isPerson}
+        count={count}
+      />
     </>
   );
 }
+///https://stackoverflow.com/questions/42733986/how-to-wait-and-fade-an-element-out

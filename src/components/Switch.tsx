@@ -3,7 +3,7 @@ import SwitchSelector from "react-switch-selector";
 export default function Switch(props) {
   const options = [
     {
-      label: <span>Person</span>,
+      label: <span>Individual</span>,
       value: {
         person: true,
       },
@@ -23,7 +23,7 @@ export default function Switch(props) {
   );
 
   return (
-    <div className="your-required-wrapper" style={{ width: 200, height: 40 }}>
+    <div className="switch-wrapper" style={{ width: 300, height: 40 }}>
       <SwitchSelector
         onChange={onChange}
         options={options}
