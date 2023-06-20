@@ -6,12 +6,15 @@
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   background-color: #151515;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+  padding-bottom:60px;
+}
+.content {
+    min-height: calc(100vh-30px);
 }
 
 a {
@@ -31,6 +34,13 @@ body {
 
 }
 
+.pickChoices {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: center;
+  margin: 3em auto;
+}
 
 form {
   margin:3em 0 0
@@ -41,9 +51,9 @@ form input {
   width:15.0em;
 }
 
+.pickCount {margin-right: 1em;}
 .pickCount input {
 width: 3em;
-height:2.2em;
 font-size:1.5em;
 text-align: center;
 
@@ -54,7 +64,6 @@ input::-webkit-inner-spin-button {
 
 button {
   border: 1px solid transparent;
-
   font-weight: 500;
   font-family: inherit;
   background-color: #1a1a1a;
@@ -94,12 +103,11 @@ button:focus-visible {
   font-size:1.5em;
   text-align: center;
   /* padding:0em; */
-  margin:.4em;
 
 }
 
-.switch-wrapper {
-  margin:2em auto 1em;}
+/* .switch-wrapper {
+  margin:2em auto 1em;} */
 
 
 .nameContainer {
@@ -126,7 +134,8 @@ button:focus-visible {
 .error {
   min-width:300px;
   max-width: 400px;
-  color:#e38676ed
+  color:#e38676ed;
+  margin:auto;
 }
 
 .pickedResults {
@@ -161,7 +170,21 @@ button:focus-visible {
     font-weight: 800;
   }
   .footer {
+    position: relative;
+    bottom:20px;
+    left:0;
+    right:0;
     color:#5b5b5b;
-    margin-top: 4em;
+    margin-top: 6em;
     font-size: .9em;
+  }
+  .howTo{
+    max-width:400px; 
+  }
+  .howTo ol {
+    text-align: left;
+  }
+  
+  .howTo li {
+    margin:1.2em 0
   }
