@@ -5,7 +5,7 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #000000;
+  background-color: #151515;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -81,10 +81,10 @@ button:hover {
   border-color: #0097e6;
 }
 
-button:focus,
+/* button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
-}
+} */
 
 .countButton {
   
@@ -136,6 +136,7 @@ button:focus-visible {
 }
 
 .pickedResults h1 {
+  text-decoration: underline
 
 }
 .pickedResults ul {
@@ -145,18 +146,20 @@ button:focus-visible {
   padding: 0;
 
   max-width:900px; 
-  line-height: 2.1em;
+  /* line-height: 2.1em; */
 }
 
   .pickedResults li {
     margin:0;
-    padding:.8em 0;
+    padding:0 0 .8em;
     text-align: center;
     font-size: 1.3em;
 
   }
 
-
+  .groupText {
+    font-weight: 800;
+  }
   .footer {
     color:#5b5b5b;
     margin-top: 4em;

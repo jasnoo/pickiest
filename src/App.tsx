@@ -14,7 +14,7 @@ export default function App() {
   const [error, setError] = useState<string | null>();
   const [showResults, setShowResults] = useState<boolean>(false)
   const [results, setResults] = useState<Object | null>(null)
-  const [showInstructions, setShowInstructions] = useState(false)
+  const [showInstructions, setShowInstructions] = useState<boolean>(false)
 
   const nameRef = useRef();
 
@@ -30,7 +30,10 @@ export default function App() {
       // setTimeout(() => setError(null), 5000);
       return;
     }
-
+    if (names.includes(nameRef.current.value)) {
+      setError("Item has already been added to list.");
+      return;
+    }
     const inputName: string = nameRef.current.value;
     const newNames: string[] = [...names, inputName];
     setNames(newNames);
@@ -38,7 +41,7 @@ export default function App() {
     nameRef.current.value = "";
   }
 
-  function reset(){
+  function reset() {
     setNames([])
     setShowResults(false)
   }
@@ -55,62 +58,56 @@ export default function App() {
       // setTimeout(() => setError(null), 5000);
     }
     else {
-
-    
-
-    // ADD VALIDATION FOR APPROPRIATE COUNT SELECTED BASED ON INPUTTED USERS
-
-    // randomize the order of the names
-    const randomizeArrOrder = (arr: string[]) => {
-      for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        const temp = arr[i];
-        arr[i] = arr[j];
-        arr[j] = temp;
-      }
-    };
-    let randomNames = names.slice();
-    randomizeArrOrder(randomNames);
-
-    if (isPerson) {
-      let chosen = {'0':randomNames.slice(0, count)}
-      setResults(chosen)
-      console.log(results);
-    } else {
-      // find remainder of people
-      const perGroup = Math.floor(randomNames.length / count);
-      let remainder = randomNames.length % count;
-
-      const groupObj = {};
-      let start = 0
-      for (let i = 0; i < count; i++) {
-        // loop to handle creating a given group
-        console.log('randomNames', randomNames)
-        let end = start + perGroup;
-        if (remainder > 0) {
-          end++
-          remainder--;
+      // randomize the order of the names
+      const randomizeArrOrder = (arr: string[]) => {
+        for (let i = arr.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          const temp = arr[i];
+          arr[i] = arr[j];
+          arr[j] = temp;
         }
-        // @ts-ignore
-        groupObj[`${i}`] = randomNames.slice(start, end);
-        start = end
+      };
+      let randomNames = names.slice();
+      randomizeArrOrder(randomNames);
+
+      if (isPerson) {
+        let chosen = { '0': randomNames.slice(0, count) }
+        setResults(chosen)
+        console.log(results);
+      } else {
+        // find remainder of people
+        const perGroup = Math.floor(randomNames.length / count);
+        let remainder = randomNames.length % count;
+
+        const groupObj = {};
+        let start = 0
+        for (let i = 0; i < count; i++) {
+          // loop to handle creating a given group
+          console.log('randomNames', randomNames)
+          let end = start + perGroup;
+          if (remainder > 0) {
+            end++
+            remainder--;
+          }
+          // @ts-ignore
+          groupObj[`${i}`] = randomNames.slice(start, end);
+          start = end
+        }
+        setResults(groupObj)
+        console.log('groupObj', groupObj);
+        console.log('results', results);
       }
-      setResults(groupObj)
-      console.log('groupObj', groupObj);
-      console.log('results', results);
-    }
-    setShowResults(true)
+      setShowResults(true)
     }
   }
 
-
-
+  // handles when user chooses to select if choosing individual or groups
   function toggleIsPerson() {
     setShowResults(false);
     setError(null);
     isPerson ? setIsPerson(false) : setIsPerson(true);
   }
-  
+
 
   return (
     <>
@@ -139,10 +136,11 @@ export default function App() {
           className='countButton'
           onClick={() => {
             setError(null);
+            setShowResults(false);
             if (count < 6) {
               setCount(count + 1)
             }
-            
+
           }}
         >
           +
@@ -158,7 +156,7 @@ export default function App() {
           name='inputName'
           // value={formName}
           maxLength={20}
-          // onChange={(e) => setFormName(e.target.value)}
+        // onChange={(e) => setFormName(e.target.value)}
         />
         <button
           className='btn'
@@ -168,33 +166,32 @@ export default function App() {
           Add Item
         </button>
       </form>
-      <div className = 'mainButtonContainer'>
-      <button
-        className='btn mainButton'
-        onClick={() => pick()}
-      >
-        Pick
-      </button>
-      <button
-        className='btn mainButton'
-        onClick={() => {
-          setError(null);
-          reset()
-        }
-      }
-      >
-        Reset
-      </button>
+      <div className='mainButtonContainer'>
+        <button
+          className='btn mainButton'
+          onClick={() => pick()}
+        >
+          Pick
+        </button>
+        <button
+          className='btn mainButton'
+          onClick={() => {
+            setError(null);
+            reset()
+          }
+          }
+        >
+          Reset
+        </button>
       </div>
       <Notification className='error' message={error} />
-      <NameContainer className = 'nameContainer'
+      <NameContainer className='nameContainer'
         names={names}
         isPerson={isPerson}
         count={count}
       />
-        <Results className='results' showResults={showResults} isPerson={isPerson} count={count} results={results}/>
-
-        <div className="footer">Made by <a href="https://github.com/jasnoo/pickiest">Jasmine N.</a></div>
+      <Results className='results' showResults={showResults} isPerson={isPerson} count={count} results={results} />
+      <div className="footer">Made by <a href="https://github.com/jasnoo/pickiest">Jasmine N.</a></div>
 
     </>
   );

@@ -1,11 +1,11 @@
 import React from "react"
 
 
-function Header(){
+function Header() {
     return (
         <>
-        <h1>Pickiest</h1>
-        <h3>Chwazi inspired picker</h3>
+            <h1>Pickiest</h1>
+            <h3>Chwazi inspired picker</h3>
         </>
     )
 }

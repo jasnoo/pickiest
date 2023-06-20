@@ -1,15 +1,15 @@
-function Results( {showResults, results, isPerson, count}){
+function Results({ showResults, results, isPerson, count }) {
     if (showResults) {
-        return  (
+        return (
             <div className='pickedResults'>
-                {/* <h1>Results</h1> */}
+                <h1>Results</h1>
                 <ul>
-                    {Object.values(results).map((x,i) => <li><strong>{isPerson ? `${count} Individual${count > 1 ? 's':''}:`: `Group ${i+1}:` } </strong> <br/>{x.join(", ")}</li>)}
+                    {Object.values(results).map((x, i) => <li><div className='groupText'>{isPerson ? '' : `Group ${i + 1}:`} </div> {x.join(", ")}</li>)}
                 </ul>
             </div>
         )
-        } else {
-           <></> 
-        }
+    } else {
+        <></>
+    }
 }
 export default Results
