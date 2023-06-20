@@ -1,11 +1,10 @@
 import { useState, useRef } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
 import Header from "./components/Header";
 import Switch from "./components/Switch";
 import NameContainer from "./components/NameContainer";
 import Notification from "./components/Notification";
+import Results from "./components/Results";
 
 export default function App() {
   // const [formName, setFormName] = useState<undefined | string>("");
@@ -13,6 +12,8 @@ export default function App() {
   const [isPerson, setIsPerson] = useState(true);
   const [count, setCount] = useState<number>(1);
   const [error, setError] = useState<string | null>();
+  const [showResults, setShowResults] = useState<boolean>(false)
+  const [results, setResults] = useState<string[] | object>(null)
 
   const nameRef = useRef();
 
@@ -34,6 +35,11 @@ export default function App() {
     nameRef.current.value = "";
   }
 
+  function reset(){
+    setNames([])
+    setShowResults(false)
+  }
+
   function pick() {
     setError(null);
     if (names.length === 0) {
@@ -42,7 +48,7 @@ export default function App() {
     }
 
     if (count > names.length) {
-      setError("There aren't enough to pick!");
+      setError("There aren't enough to pick from! Add more items");
       setTimeout(() => setError(null), 5000);
     }
 
@@ -68,82 +74,69 @@ export default function App() {
       let remainder = randomNames.length % count;
 
       const groupObj = {};
-
+      let start = 0
       for (let i = 0; i < count; i++) {
         // loop to handle creating a given group
-
-        let start = perGroup * i;
+        console.log('randomNames', randomNames)
         let end = start + perGroup;
         if (remainder > 0) {
-          end++;
+          end++
           remainder--;
         }
         // @ts-ignore
         groupObj[`${i}`] = randomNames.slice(start, end);
+        start = end
       }
 
       console.log(groupObj);
     }
+    setShowResults(true)
   }
 
-  // function pick() {
-  //   // if the user wants to pick individual people
-  //   if (isPerson) {
-  //     const chosen: Number[] = [];
-  //     if (count > names.length) {
-  //       console.log("count is too big");
-  //     } else {
-  //       while (chosen.length < count) {
-  //         let chosenIndex = Math.floor(Math.random() * names.length);
-  //         if (!chosen.includes(chosenIndex)) {
-  //           chosen.push(chosenIndex);
-  //         }
-  //         const chosenNames = chosen.map((x) => names[x]);
-  //         console.log(chosenNames);
-  //       }
-  //     }
-  //   }
-  //   // if the user wants to break out into groups
-  //   else {
-  //     const groupObj = {};
-  //     for (let i = 0; i < names.length; i++) {
-  //       let temp: string = i.toString();
-  //       groupObj[temp] = [];
-  //     }
 
-  //     let currentGroup = 0;
-
-  //     // create behavior that loops between the groups which will be keys with empty arr
-  //     let namesCopy = names.slice();
-  //     while (namesCopy.length > 0) {
-  //       let chosenIndex = Math.floor(Math.random() * namesCopy.length);
-  //       groupObj[currentGroup.toString()].push(namesCopy[chosenIndex]);
-  //       if (chosenIndex === 0) {
-  //         namesCopy = namesCopy.slice(1);
-  //       } else if (chosenIndex === namesCopy.length - 1) {
-  //         let lastValue = namesCopy.length - 1;
-  //         namesCopy = namesCopy.slice(0, lastValue);
-  //       } else {
-  //         namesCopy = namesCopy
-  //           .slice(0, chosenIndex)
-  //           .concat(namesCopy.slice(chosenIndex + 1));
-  //       }
-  //     }
-
-  //     // copy names and basically while name copy has a length > 0, loop past keys
-  //   }
-  // }
 
   function toggleIsPerson() {
     console.log("this is happening?");
     isPerson ? setIsPerson(false) : setIsPerson(true);
   }
+  
 
   return (
     <>
       <Header />
 
       <Switch handleToggle={toggleIsPerson} />
+
+
+      <div className='pickCount'>
+        <button
+          className='countButton'
+          onClick={() => {
+            count > 1 ? setCount(count - 1) : setCount(1)
+          }}
+        >
+          -
+        </button>
+        <input
+          type='number'
+          name='count'
+          value={count}
+          required
+          maxLength={1}
+          onChange={(e) => setCount(Number(e.target.value))}
+        />
+        <button
+          className='countButton'
+          onClick={() => {
+            if (count < 6) {
+              setCount(count + 1)
+            }
+            
+          }}
+        >
+          +
+        </button>
+      </div>
 
       {/* Form to add names */}
       <form onSubmit={handleSubmit}>
@@ -165,41 +158,34 @@ export default function App() {
         </button>
       </form>
 
-      <div className='pickCount'>
-        <button
-          className='countButton'
-          onClick={() => (count > 1 ? setCount(count - 1) : setCount(1))}
-        >
-          -
-        </button>
-        <input
-          type='number'
-          name='count'
-          value={count}
-          required
-          maxLength={1}
-          onChange={(e) => setCount(Number(e.target.value))}
-        />
-        <button
-          className='countButton'
-          onClick={() => setCount(count + 1)}
-        >
-          +
-        </button>
-      </div>
+
+
       <button
         className='mainButton'
         onClick={() => pick()}
       >
         Pick
       </button>
+
+            <button
+        className='mainButton'
+        onClick={() => reset()}
+      >
+        Reset
+      </button>
       <Notification message={error} />
-      <NameContainer
+      <NameContainer className = 'nameContainer'
         names={names}
         isPerson={isPerson}
         count={count}
       />
+        <Results showResults={showResults}/>
+
     </>
   );
 }
 ///https://stackoverflow.com/questions/42733986/how-to-wait-and-fade-an-element-out
+
+
+
+
