@@ -21,6 +21,7 @@ export default function App() {
   // instead of useState + onChange to prevent rerenders on each keypress
   function handleSubmit(e) {
     e.preventDefault();
+    setShowResults(false)
     //@ts-ignore
     if (nameRef.current.value.length === 0) {
       setError("Please add something to pick!");
@@ -99,7 +100,7 @@ export default function App() {
 
 
   function toggleIsPerson() {
-    console.log("this is happening?");
+    setShowResults(false)
     isPerson ? setIsPerson(false) : setIsPerson(true);
   }
   
@@ -107,14 +108,12 @@ export default function App() {
   return (
     <>
       <Header />
-
       <Switch handleToggle={toggleIsPerson} />
-
-
       <div className='pickCount'>
         <button
           className='countButton'
           onClick={() => {
+            setShowResults(false)
             count > 1 ? setCount(count - 1) : setCount(1)
           }}
         >
@@ -153,33 +152,35 @@ export default function App() {
           // onChange={(e) => setFormName(e.target.value)}
         />
         <button
-          className='mainButton'
+          className='btn'
           type='submit'
           onSubmit={(e) => handleSubmit(e)}
         >
           Add
         </button>
       </form>
+      <div className = 'mainButtonContainer'>
       <button
-        className='mainButton'
+        className='btn mainButton'
         onClick={() => pick()}
       >
         Pick
       </button>
 
       <button
-        className='mainButton'
+        className='btn mainButton'
         onClick={() => reset()}
       >
         Reset
       </button>
+      </div>
       <Notification message={error} />
       <NameContainer className = 'nameContainer'
         names={names}
         isPerson={isPerson}
         count={count}
       />
-        <Results showResults={showResults} results={results}/>
+        <Results className='results' showResults={showResults} results={results}/>
 
     </>
   );
