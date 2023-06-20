@@ -5,6 +5,7 @@ import Switch from "./components/Switch";
 import NameContainer from "./components/NameContainer";
 import Notification from "./components/Notification";
 import Results from "./components/Results";
+import Footer from "./components/Footer";
 
 export default function App() {
   // const [formName, setFormName] = useState<undefined | string>("");
@@ -14,7 +15,6 @@ export default function App() {
   const [error, setError] = useState<string | null>();
   const [showResults, setShowResults] = useState<boolean>(false)
   const [results, setResults] = useState<Object | null>(null)
-  const [showInstructions, setShowInstructions] = useState<boolean>(false)
 
   const nameRef = useRef();
 
@@ -105,94 +105,101 @@ export default function App() {
   function toggleIsPerson() {
     setShowResults(false);
     setError(null);
-    isPerson ? setIsPerson(false) : setIsPerson(true);
+    if (isPerson && count === 1) {
+      setCount(2)
+    }
+    setIsPerson(!isPerson)
   }
 
 
   return (
     <>
-      <Header />
-      <Switch handleToggle={toggleIsPerson} />
-      <div className='pickCount'>
-        <button
-          className='countButton'
-          onClick={() => {
-            setError(null);
-            setShowResults(false);
-            count > 1 ? setCount(count - 1) : setCount(1);
-          }}
-        >
-          -
-        </button>
-        <input
-          type='number'
-          name='count'
-          value={count}
-          required
-          maxLength={1}
-          onChange={(e) => setCount(Number(e.target.value))}
-        />
-        <button
-          className='countButton'
-          onClick={() => {
-            setError(null);
-            setShowResults(false);
-            if (count < 6) {
-              setCount(count + 1)
+      <div className="content">
+        <Header />
+        <div className="pickChoices">
+          <div className='pickCount'>
+            <button
+              className='countButton'
+              onClick={() => {
+                setError(null);
+                setShowResults(false);
+                count > 1 ? setCount(count - 1) : setCount(1);
+              }}
+            >
+              -
+            </button>
+            <input
+              type='number'
+              name='count'
+              value={count}
+              required
+              maxLength={1}
+              onChange={(e) => setCount(Number(e.target.value))}
+            />
+            <button
+              className='countButton'
+              onClick={() => {
+                setError(null);
+                setShowResults(false);
+                if (count < 12) {
+                  setCount(count + 1)
+                }
+
+              }}
+            >
+              +
+            </button>
+          </div>
+          <Switch handleToggle={toggleIsPerson} />
+        </div>
+
+
+        {/* Form to add names */}
+        <form onSubmit={handleSubmit}>
+          {/* <label htmlFor="inputName">Name:</label> */}
+          <input
+            type='text'
+            ref={nameRef}
+            name='inputName'
+            // value={formName}
+            maxLength={20}
+          // onChange={(e) => setFormName(e.target.value)}
+          />
+          <button
+            className='btn'
+            type='submit'
+            onSubmit={(e) => handleSubmit(e)}
+          >
+            Add Item
+          </button>
+        </form>
+        <div className='mainButtonContainer'>
+          <button
+            className='btn mainButton'
+            onClick={() => pick()}
+          >
+            Pick
+          </button>
+          <button
+            className='btn mainButton'
+            onClick={() => {
+              setError(null);
+              reset()
             }
-
-          }}
-        >
-          +
-        </button>
-      </div>
-
-      {/* Form to add names */}
-      <form onSubmit={handleSubmit}>
-        {/* <label htmlFor="inputName">Name:</label> */}
-        <input
-          type='text'
-          ref={nameRef}
-          name='inputName'
-          // value={formName}
-          maxLength={20}
-        // onChange={(e) => setFormName(e.target.value)}
+            }
+          >
+            Reset
+          </button>
+        </div>
+        <Notification className='error' message={error} />
+        <NameContainer className='nameContainer'
+          names={names}
+          isPerson={isPerson}
+          count={count}
         />
-        <button
-          className='btn'
-          type='submit'
-          onSubmit={(e) => handleSubmit(e)}
-        >
-          Add Item
-        </button>
-      </form>
-      <div className='mainButtonContainer'>
-        <button
-          className='btn mainButton'
-          onClick={() => pick()}
-        >
-          Pick
-        </button>
-        <button
-          className='btn mainButton'
-          onClick={() => {
-            setError(null);
-            reset()
-          }
-          }
-        >
-          Reset
-        </button>
+        <Results className='results' showResults={showResults} isPerson={isPerson} count={count} results={results} />
       </div>
-      <Notification className='error' message={error} />
-      <NameContainer className='nameContainer'
-        names={names}
-        isPerson={isPerson}
-        count={count}
-      />
-      <Results className='results' showResults={showResults} isPerson={isPerson} count={count} results={results} />
-      <div className="footer">Made by <a href="https://github.com/jasnoo/pickiest">Jasmine N.</a></div>
-
+      <Footer />
     </>
   );
 }

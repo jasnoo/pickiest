@@ -3,7 +3,7 @@ import SwitchSelector from "react-switch-selector";
 export default function Switch(props) {
   const options = [
     {
-      label: <span>Individual</span>,
+      label: <span>Individuals</span>,
       value: {
         person: true,
       },
