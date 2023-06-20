@@ -24,17 +24,16 @@ a:hover {
 }
 
 body {
-  margin: 0;
+  margin: 0 0 3em;
   display: flex;
   place-items: center;
   min-width: 320px;
+  max-width: 90%;
   min-height: 100vh;
+
 }
 
-h1 {
-  /* font-size: 3.2em; */
-  line-height: 1.1;
-}
+
 
 form {
   margin:3em 0 0
@@ -122,9 +121,11 @@ button:focus-visible {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  width:400px;
+  /* min-width: 300px;
+  max-width:80%; */
   text-align: center;
   justify-content: center;
+  margin: auto;
 
 
 }
@@ -133,14 +134,23 @@ button:focus-visible {
   text-align: center;
 }
 
+.pickedResults h1 {
+  margin:2em auto 1em
+}
 .pickedResults ul {
+
   list-style: none; 
   list-style-type: none;
+  margin-top:1em;
   padding: 0;
+  line-height: 2.1em;
 }
 
   .pickedResults li {
     margin:0;
+    padding:.8em 0 0;
     text-align: center;
+    font-size: 1.3em;
+
   }
 
