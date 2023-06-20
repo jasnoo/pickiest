@@ -12,7 +12,7 @@ export default function Switch(props) {
     {
       label: "Groups",
       value: "groups",
-      selectedBackgroundColor: "#fbc531",
+      selectedBackgroundColor: "#0097e6",
     },
   ];
 

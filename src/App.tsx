@@ -13,7 +13,8 @@ export default function App() {
   const [count, setCount] = useState<number>(1);
   const [error, setError] = useState<string | null>();
   const [showResults, setShowResults] = useState<boolean>(false)
-  const [results, setResults] = useState<string[] | object>(null)
+  const [results, setResults] = useState<Object | null>(null)
+  const [showInstructions, setShowInstructions] = useState(false)
 
   const nameRef = useRef();
 
@@ -21,11 +22,12 @@ export default function App() {
   // instead of useState + onChange to prevent rerenders on each keypress
   function handleSubmit(e) {
     e.preventDefault();
-    setShowResults(false)
+    setError(null);
+    setShowResults(false);
     //@ts-ignore
     if (nameRef.current.value.length === 0) {
       setError("Please add something to pick!");
-      setTimeout(() => setError(null), 5000);
+      // setTimeout(() => setError(null), 5000);
       return;
     }
 
@@ -44,14 +46,17 @@ export default function App() {
   function pick() {
     setError(null);
     if (names.length === 0) {
-      setError("Nothing to pick!");
-      setTimeout(() => setError(null), 5000);
+      setError("Please add items to pick from!");
+      // setTimeout(() => setError(null), 5000);
     }
 
-    if (count > names.length) {
-      setError("There aren't enough to pick from! Add more items");
-      setTimeout(() => setError(null), 5000);
+    else if (count > names.length) {
+      setError("There aren't enough to pick from! Add more items or reduce the number of individuals/groups to pick.");
+      // setTimeout(() => setError(null), 5000);
     }
+    else {
+
+    
 
     // ADD VALIDATION FOR APPROPRIATE COUNT SELECTED BASED ON INPUTTED USERS
 
@@ -95,12 +100,14 @@ export default function App() {
       console.log('results', results);
     }
     setShowResults(true)
+    }
   }
 
 
 
   function toggleIsPerson() {
-    setShowResults(false)
+    setShowResults(false);
+    setError(null);
     isPerson ? setIsPerson(false) : setIsPerson(true);
   }
   
@@ -113,8 +120,9 @@ export default function App() {
         <button
           className='countButton'
           onClick={() => {
-            setShowResults(false)
-            count > 1 ? setCount(count - 1) : setCount(1)
+            setError(null);
+            setShowResults(false);
+            count > 1 ? setCount(count - 1) : setCount(1);
           }}
         >
           -
@@ -130,6 +138,7 @@ export default function App() {
         <button
           className='countButton'
           onClick={() => {
+            setError(null);
             if (count < 6) {
               setCount(count + 1)
             }
@@ -156,7 +165,7 @@ export default function App() {
           type='submit'
           onSubmit={(e) => handleSubmit(e)}
         >
-          Add
+          Add Item
         </button>
       </form>
       <div className = 'mainButtonContainer'>
@@ -166,21 +175,26 @@ export default function App() {
       >
         Pick
       </button>
-
       <button
         className='btn mainButton'
-        onClick={() => reset()}
+        onClick={() => {
+          setError(null);
+          reset()
+        }
+      }
       >
         Reset
       </button>
       </div>
-      <Notification message={error} />
+      <Notification className='error' message={error} />
       <NameContainer className = 'nameContainer'
         names={names}
         isPerson={isPerson}
         count={count}
       />
-        <Results className='results' showResults={showResults} results={results}/>
+        <Results className='results' showResults={showResults} isPerson={isPerson} count={count} results={results}/>
+
+        <div className="footer">Made by <a href="https://github.com/jasnoo/pickiest">Jasmine N.</a></div>
 
     </>
   );

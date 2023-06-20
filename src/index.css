@@ -5,7 +5,7 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: #000000;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -15,12 +15,11 @@
 }
 
 a {
-  font-weight: 500;
-  color: #646cff;
+  color: #0097e6;
   text-decoration: inherit;
 }
 a:hover {
-  color: #535bf2;
+  color: #08a9ff;
 }
 
 body {
@@ -28,11 +27,9 @@ body {
   display: flex;
   place-items: center;
   min-width: 320px;
-  max-width: 90%;
   min-height: 100vh;
 
 }
-
 
 
 form {
@@ -81,7 +78,7 @@ button {
 
 
 button:hover {
-  border-color: #646cff;
+  border-color: #0097e6;
 }
 
 button:focus,
@@ -102,27 +99,19 @@ button:focus-visible {
 }
 
 .switch-wrapper {
-  margin:1em auto;}
+  margin:2em auto 1em;}
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+
+.nameContainer {
+  margin-top: 3em;
 }
 
 .itemsContainer {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  /* min-width: 300px;
-  max-width:80%; */
+  min-width: 300px;
+  max-width:900px; 
   text-align: center;
   justify-content: center;
   margin: auto;
@@ -134,23 +123,42 @@ button:focus-visible {
   text-align: center;
 }
 
+.error {
+  min-width:300px;
+  max-width: 400px;
+  color:#e38676ed
+}
+
+.pickedResults {
+  border:1px rgb(55, 55, 55) solid;
+  margin:3em auto;
+  padding:1em;
+}
+
 .pickedResults h1 {
-  margin:2em auto 1em
+
 }
 .pickedResults ul {
 
   list-style: none; 
   list-style-type: none;
-  margin-top:1em;
   padding: 0;
+
+  max-width:900px; 
   line-height: 2.1em;
 }
 
   .pickedResults li {
     margin:0;
-    padding:.8em 0 0;
+    padding:.8em 0;
     text-align: center;
     font-size: 1.3em;
 
   }
 
+
+  .footer {
+    color:#5b5b5b;
+    margin-top: 4em;
+    font-size: .9em;
+  }

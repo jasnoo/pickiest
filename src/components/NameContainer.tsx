@@ -7,8 +7,8 @@ function NameContainer({ names, isPerson, count }) {
 
   if (names.length !== 0) {
     return (
-      <>
-        <h2>{`Choose ${count} ${containerText}${plural} from:`}</h2>
+      <div className='nameContainer'>
+        <h2>{`Pick ${count} ${containerText}${plural} from:`}</h2>
         <div className='itemsContainer'>
           {names.map((x, i) => (
             <div
@@ -19,7 +19,7 @@ function NameContainer({ names, isPerson, count }) {
             </div>
           ))}
         </div>
-      </>
+      </div>
     );
   } else return <div />;
 }
