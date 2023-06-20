@@ -67,7 +67,9 @@ export default function App() {
     randomizeArrOrder(randomNames);
 
     if (isPerson) {
-      console.log(randomNames.slice(0, count));
+      let chosen = {'0':randomNames.slice(0, count)}
+      setResults(chosen)
+      console.log(results);
     } else {
       // find remainder of people
       const perGroup = Math.floor(randomNames.length / count);
@@ -87,8 +89,9 @@ export default function App() {
         groupObj[`${i}`] = randomNames.slice(start, end);
         start = end
       }
-
-      console.log(groupObj);
+      setResults(groupObj)
+      console.log('groupObj', groupObj);
+      console.log('results', results);
     }
     setShowResults(true)
   }
@@ -157,9 +160,6 @@ export default function App() {
           Add
         </button>
       </form>
-
-
-
       <button
         className='mainButton'
         onClick={() => pick()}
@@ -167,7 +167,7 @@ export default function App() {
         Pick
       </button>
 
-            <button
+      <button
         className='mainButton'
         onClick={() => reset()}
       >
@@ -179,7 +179,7 @@ export default function App() {
         isPerson={isPerson}
         count={count}
       />
-        <Results showResults={showResults}/>
+        <Results showResults={showResults} results={results}/>
 
     </>
   );
