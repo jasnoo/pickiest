@@ -1,6 +1,8 @@
+type InstructionProps = {
+    showInstructions: boolean;
+}
 
-
-function Instructions({ showInstructions }) {
+function Instructions({ showInstructions }: InstructionProps) {
     if (showInstructions) {
         return (
             <ol>

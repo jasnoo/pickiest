@@ -1,13 +1,12 @@
-import { useState } from "react";
-import Instructions from "./Instructions"
+// import Instructions from "./Instructions"
 
 
 function Header() {
-    const [showInstructions, setShowInstructions] = useState<boolean>(false)
+    // const [showInstructions, setShowInstructions] = useState<boolean>(false)
 
-    function toggleInstructions() {
-        setShowInstructions(!showInstructions)
-    }
+    // function toggleInstructions() {
+    //     setShowInstructions(!showInstructions)
+    // }
 
     return (
         <>

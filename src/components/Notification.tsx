@@ -1,4 +1,7 @@
-const Notification = ({ message }) => {
+type NotificationProps = {
+  message: string | null | undefined;
+}
+const Notification = ({ message }: NotificationProps) => {
   if (message === null) {
     return null;
   }

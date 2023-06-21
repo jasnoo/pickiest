@@ -7,6 +7,7 @@ import Notification from "./components/Notification";
 import Results from "./components/Results";
 import Footer from "./components/Footer";
 
+
 export default function App() {
   // const [formName, setFormName] = useState<undefined | string>("");
   const [names, setNames] = useState<string[]>([]);
@@ -14,17 +15,16 @@ export default function App() {
   const [count, setCount] = useState<number>(1);
   const [error, setError] = useState<string | null>();
   const [showResults, setShowResults] = useState<boolean>(false)
-  const [results, setResults] = useState<Object | null>(null)
+  const [results, setResults] = useState<[] | object>([])
 
-  const nameRef = useRef();
+  const nameRef = useRef<HTMLInputElement>(null!);
 
   // when submitting a new new, use useRef hook to store name value
   // instead of useState + onChange to prevent rerenders on each keypress
-  function handleSubmit(e) {
+  function handleSubmit(e: React.SyntheticEvent<HTMLFormElement>) {
     e.preventDefault();
     setError(null);
     setShowResults(false);
-    //@ts-ignore
     if (nameRef.current.value.length === 0) {
       setError("Please add something to pick!");
       // setTimeout(() => setError(null), 5000);
@@ -37,26 +37,35 @@ export default function App() {
     const inputName: string = nameRef.current.value;
     const newNames: string[] = [...names, inputName];
     setNames(newNames);
-    // @ts-ignore
     nameRef.current.value = "";
   }
 
+  // resets the inputted names
   function reset() {
     setNames([])
     setShowResults(false)
   }
 
+  // function to pick random individual or groups from list of items
   function pick() {
+
+    // error if no items have been inputted
     setError(null);
     if (names.length === 0) {
       setError("Please add items to pick from!");
-      // setTimeout(() => setError(null), 5000);
     }
 
+    // error if the number to choose is > than number of items inputted
     else if (count > names.length) {
       setError("There aren't enough to pick from! Add more items or reduce the number of individuals/groups to pick.");
-      // setTimeout(() => setError(null), 5000);
     }
+
+    // error if user tries to only choose 1 group
+    else if (count === 1 && !isPerson) {
+      setError("There must be at least 2 groups. Please pick at least 2 groups or choose individuals instead.");
+
+    }
+
     else {
       // randomize the order of the names
       const randomizeArrOrder = (arr: string[]) => {
@@ -67,23 +76,26 @@ export default function App() {
           arr[j] = temp;
         }
       };
-      let randomNames = names.slice();
+      const randomNames = names.slice();
       randomizeArrOrder(randomNames);
 
+      // if user selects picking individuals 
       if (isPerson) {
-        let chosen = { '0': randomNames.slice(0, count) }
+        const chosen = { '0': randomNames.slice(0, count) }
         setResults(chosen)
-        console.log(results);
+        console.log('person results', results);
       } else {
-        // find remainder of people
+        // if user selects picking individuals 
+
+        // find remainder based on making even groups 
         const perGroup = Math.floor(randomNames.length / count);
         let remainder = randomNames.length % count;
 
+        // group object will hold all selected groups
         const groupObj = {};
         let start = 0
         for (let i = 0; i < count; i++) {
-          // loop to handle creating a given group
-          console.log('randomNames', randomNames)
+          // loop to handle creating each group, handles any remainder 
           let end = start + perGroup;
           if (remainder > 0) {
             end++
@@ -95,13 +107,12 @@ export default function App() {
         }
         setResults(groupObj)
         console.log('groupObj', groupObj);
-        console.log('results', results);
       }
       setShowResults(true)
     }
   }
 
-  // handles when user chooses to select if choosing individual or groups
+  // sets when user toggles between choosing individual or groups
   function toggleIsPerson() {
     setShowResults(false);
     setError(null);
@@ -111,6 +122,21 @@ export default function App() {
     setIsPerson(!isPerson)
   }
 
+  // when user clicks (-) button for count 
+  function decrementCount() {
+    setError(null);
+    setShowResults(false);
+    count > 1 ? setCount(count - 1) : setCount(1);
+  }
+  // when user clicks (+) button for count 
+  function incrementCount() {
+    setError(null);
+    setShowResults(false);
+    if (count < 12) {
+      setCount(count + 1)
+    }
+
+  }
 
   return (
     <>
@@ -118,16 +144,14 @@ export default function App() {
         <Header />
         <div className="pickChoices">
           <div className='pickCount'>
+            {/* (-) Count button */}
             <button
               className='countButton'
-              onClick={() => {
-                setError(null);
-                setShowResults(false);
-                count > 1 ? setCount(count - 1) : setCount(1);
-              }}
+              onClick={() => decrementCount()}
             >
               -
             </button>
+            {/* Count input field */}
             <input
               type='number'
               name='count'
@@ -136,50 +160,44 @@ export default function App() {
               maxLength={1}
               onChange={(e) => setCount(Number(e.target.value))}
             />
+            {/* (+) Count button */}
             <button
               className='countButton'
-              onClick={() => {
-                setError(null);
-                setShowResults(false);
-                if (count < 12) {
-                  setCount(count + 1)
-                }
-
-              }}
+              onClick={() => incrementCount()}
             >
               +
             </button>
           </div>
+          {/* Individual/Group toggle */}
           <Switch handleToggle={toggleIsPerson} />
         </div>
 
-
-        {/* Form to add names */}
+        {/* Form to add items */}
         <form onSubmit={handleSubmit}>
-          {/* <label htmlFor="inputName">Name:</label> */}
+          {/* <form> */}
           <input
             type='text'
             ref={nameRef}
             name='inputName'
-            // value={formName}
             maxLength={20}
-          // onChange={(e) => setFormName(e.target.value)}
           />
           <button
             className='btn'
             type='submit'
-            onSubmit={(e) => handleSubmit(e)}
+          // onClick={handleSubmit}
           >
             Add Item
           </button>
         </form>
         <div className='mainButtonContainer'>
+          {/* Pick button */}
           <button
             className='btn mainButton'
             onClick={() => pick()}
           >
             Pick
           </button>
+          {/* Reset button */}
           <button
             className='btn mainButton'
             onClick={() => {
@@ -191,20 +209,18 @@ export default function App() {
             Reset
           </button>
         </div>
-        <Notification className='error' message={error} />
-        <NameContainer className='nameContainer'
+        {/* Error */}
+        <Notification message={error} />
+        {/* Container for all inputted items */}
+        <NameContainer
           names={names}
           isPerson={isPerson}
           count={count}
         />
-        <Results className='results' showResults={showResults} isPerson={isPerson} count={count} results={results} />
+        {/* Container for the results of picking */}
+        <Results showResults={showResults} isPerson={isPerson} count={count} results={results} />
       </div>
       <Footer />
     </>
   );
 }
-///https://stackoverflow.com/questions/42733986/how-to-wait-and-fade-an-element-out
-
-
-
-
