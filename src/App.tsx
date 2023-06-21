@@ -7,6 +7,7 @@ import Notification from "./components/Notification";
 import Results from "./components/Results";
 import Footer from "./components/Footer";
 
+
 export default function App() {
   // const [formName, setFormName] = useState<undefined | string>("");
   const [names, setNames] = useState<string[]>([]);
@@ -14,7 +15,7 @@ export default function App() {
   const [count, setCount] = useState<number>(1);
   const [error, setError] = useState<string | null>();
   const [showResults, setShowResults] = useState<boolean>(false)
-  const [results, setResults] = useState<null | object>(null)
+  const [results, setResults] = useState<[] | object>([])
 
   const nameRef = useRef<HTMLInputElement>(null!);
 

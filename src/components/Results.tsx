@@ -1,6 +1,6 @@
 type ResultsProps = {
     showResults: boolean;
-    results: object | null;
+    results: object;
     isPerson: boolean;
     count: number;
 }
@@ -15,7 +15,7 @@ function Results({ showResults, results, isPerson }: ResultsProps) {
             </div>
         )
     } else {
-        <></>
+        return null
     }
 }
 export default Results

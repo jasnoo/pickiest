@@ -1,6 +1,11 @@
+// @ts-ignore
 import SwitchSelector from "react-switch-selector";
 
-export default function Switch(props) {
+interface SwitchProps {
+  handleToggle: () => void;
+}
+
+const Switch: React.FC<SwitchProps> = (props) => {
   const options = [
     {
       label: <span>Individuals</span>,
@@ -34,3 +39,5 @@ export default function Switch(props) {
     </div>
   );
 }
+
+export default Switch
