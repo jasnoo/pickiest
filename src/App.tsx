@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import "./App.css";
 import Header from "./components/Header";
 import Switch from "./components/Switch";
@@ -25,11 +25,19 @@ export default function App() {
     e.preventDefault();
     setError(null);
     setShowResults(false);
+
     if (nameRef.current.value.length === 0) {
       setError("Please add something to pick!");
       // setTimeout(() => setError(null), 5000);
       return;
     }
+
+    if (count <= 0) {
+      setError("You need to pick at least 1 item or 2 groups!")
+      isPerson ? setCount(1) : setCount(2);
+      return;
+    }
+
     if (names.includes(nameRef.current.value)) {
       setError("Item has already been added to list.");
       return;
@@ -83,7 +91,6 @@ export default function App() {
       if (isPerson) {
         const chosen = { '0': randomNames.slice(0, count) }
         setResults(chosen)
-        console.log('person results', results);
       } else {
         // if user selects picking individuals 
 
@@ -106,7 +113,6 @@ export default function App() {
           start = end
         }
         setResults(groupObj)
-        console.log('groupObj', groupObj);
       }
       setShowResults(true)
     }
@@ -137,6 +143,17 @@ export default function App() {
     }
 
   }
+  // if user tries to type invalid number into count field
+  function checkCount() {
+    if (count <= 0) {
+      isPerson ? setCount(1) : setCount(2);
+      return;
+    }
+    else if (count > 12) {
+      setCount(12)
+    }
+
+  }
 
   return (
     <>
@@ -159,6 +176,7 @@ export default function App() {
               required
               maxLength={1}
               onChange={(e) => setCount(Number(e.target.value))}
+              onBlur={() => checkCount()}
             />
             {/* (+) Count button */}
             <button
