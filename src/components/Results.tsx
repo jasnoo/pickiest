@@ -1,6 +1,6 @@
 type ResultsProps = {
     showResults: boolean;
-    results: object;
+    results: object | null;
     isPerson: boolean;
     count: number;
 }

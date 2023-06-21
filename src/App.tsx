@@ -14,13 +14,13 @@ export default function App() {
   const [count, setCount] = useState<number>(1);
   const [error, setError] = useState<string | null>();
   const [showResults, setShowResults] = useState<boolean>(false)
-  const [results, setResults] = useState<object | null>(null)
+  const [results, setResults] = useState<null | object>(null)
 
   const nameRef = useRef<HTMLInputElement>(null!);
 
   // when submitting a new new, use useRef hook to store name value
   // instead of useState + onChange to prevent rerenders on each keypress
-  function handleSubmit(e: React.FormEvent<HTMLButtonElement>) {
+  function handleSubmit(e: React.SyntheticEvent<HTMLFormElement>) {
     e.preventDefault();
     setError(null);
     setShowResults(false);
@@ -82,7 +82,7 @@ export default function App() {
       if (isPerson) {
         const chosen = { '0': randomNames.slice(0, count) }
         setResults(chosen)
-        console.log(results);
+        console.log('person results', results);
       } else {
         // if user selects picking individuals 
 
@@ -106,7 +106,6 @@ export default function App() {
         }
         setResults(groupObj)
         console.log('groupObj', groupObj);
-        console.log('results', results);
       }
       setShowResults(true)
     }
@@ -174,6 +173,7 @@ export default function App() {
 
         {/* Form to add items */}
         <form onSubmit={handleSubmit}>
+          {/* <form> */}
           <input
             type='text'
             ref={nameRef}
@@ -183,7 +183,7 @@ export default function App() {
           <button
             className='btn'
             type='submit'
-            onSubmit={(e) => handleSubmit(e)}
+          // onClick={handleSubmit}
           >
             Add Item
           </button>
@@ -209,15 +209,15 @@ export default function App() {
           </button>
         </div>
         {/* Error */}
-        <Notification className='error' message={error} />
+        <Notification message={error} />
         {/* Container for all inputted items */}
-        <NameContainer className='nameContainer'
+        <NameContainer
           names={names}
           isPerson={isPerson}
           count={count}
         />
         {/* Container for the results of picking */}
-        <Results className='results' showResults={showResults} isPerson={isPerson} count={count} results={results} />
+        <Results showResults={showResults} isPerson={isPerson} count={count} results={results} />
       </div>
       <Footer />
     </>

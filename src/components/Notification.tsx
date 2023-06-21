@@ -1,5 +1,5 @@
 type NotificationProps = {
-  message: string | null;
+  message: string | null | undefined;
 }
 const Notification = ({ message }: NotificationProps) => {
   if (message === null) {
