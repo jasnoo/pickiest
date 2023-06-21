@@ -1,7 +1,11 @@
-import { useState } from "react";
+type NameContainerProps = {
+  names: string[];
+  isPerson: boolean;
+  count: number;
+}
 
 // count is count of chosen things
-function NameContainer({ names, isPerson, count }) {
+function NameContainer({ names, isPerson, count }: NameContainerProps) {
   const containerText = isPerson ? "Individual" : "Group";
   const plural = count > 1 ? "s" : "";
 
