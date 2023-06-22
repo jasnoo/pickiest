@@ -11,7 +11,6 @@ describe('Footer', () => {
             getByText((content, node) => {
                 const hasText = (node: HTMLElement) => node.textContent === text
                 const childrenDontHaveText = Array.from(node?.children || []).every(child => !hasText(child as HTMLElement))
-                // return hasText(node) && childrenDontHaveText
                 return hasText(node) && childrenDontHaveText
             })
         }
