@@ -90,7 +90,7 @@ button {
 }
 .mainButtonContainer {
   font-size: 1.5em;
-  margin:1em
+  margin:2em
 }
 .mainButton {
   margin: 0 .5em
@@ -154,6 +154,7 @@ button:focus-visible {
   border:1px rgb(55, 55, 55) solid;
   margin:3em auto;
   padding:1em;
+  max-width: 80%;
 }
 
 .pickedResults h1 {
