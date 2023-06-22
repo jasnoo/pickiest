@@ -41,6 +41,7 @@ body {
 
 .pickChoices {
   display: flex;
+  flex-wrap: wrap;
   flex-direction: row;
   align-content: center;
   justify-content: center;
@@ -57,7 +58,10 @@ form input {
   margin-right:1em;
 }
 
-.pickCount {margin-right: 1em;}
+.pickCount {
+  margin: .5em;
+}
+
 .pickCount input {
 width: 3em;
 font-size:1.5em;
@@ -114,9 +118,9 @@ button:focus-visible {
 
 }
 
-/* .switch-wrapper {
-  margin:2em auto 1em;} */
-
+.switch-wrapper {
+  margin: .5em;
+}
 
 .nameContainer {
   margin-top: 3em;
