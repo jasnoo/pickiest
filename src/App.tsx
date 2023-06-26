@@ -6,6 +6,7 @@ import NameContainer from "./components/NameContainer";
 import Notification from "./components/Notification";
 import Results from "./components/Results";
 import Footer from "./components/Footer";
+import Counter from "./components/Counter";
 
 
 export default function App() {
@@ -160,32 +161,8 @@ export default function App() {
       <div className="content">
         <Header />
         <div className="pickChoices">
-          <div className='pickCount'>
-            {/* (-) Count button */}
-            <button
-              className='countButton'
-              onClick={() => decrementCount()}
-            >
-              -
-            </button>
-            {/* Count input field */}
-            <input
-              type='number'
-              name='count'
-              value={count}
-              required
-              maxLength={1}
-              onChange={(e) => setCount(Number(e.target.value))}
-              onBlur={() => checkCount()}
-            />
-            {/* (+) Count button */}
-            <button
-              className='countButton'
-              onClick={() => incrementCount()}
-            >
-              +
-            </button>
-          </div>
+          {/* Counter */}
+          <Counter count={count} checkCount={checkCount} incrementCount={incrementCount} decrementCount={decrementCount} setCount={setCount} />
           {/* Individual/Group toggle */}
           <Switch handleToggle={toggleIsPerson} />
         </div>
