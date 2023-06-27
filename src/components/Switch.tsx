@@ -1,7 +1,7 @@
 // @ts-ignore
 import SwitchSelector from "react-switch-selector";
 
-interface SwitchProps {
+export interface SwitchProps {
   handleToggle: () => void;
 }
 

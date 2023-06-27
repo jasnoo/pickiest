@@ -1,4 +1,4 @@
-type ResultsProps = {
+export type ResultsProps = {
     showResults: boolean;
     results: object;
     isPerson: boolean;
