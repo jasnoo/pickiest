@@ -1,4 +1,12 @@
-function Counter({ count, checkCount, incrementCount, decrementCount, setCount }) {
+type CounterProps = {
+    count: number;
+    checkCount: () => void;
+    incrementCount: () => void;
+    decrementCount: () => void;
+    setCount: (count: number) => void;
+
+}
+function Counter({ count, checkCount, incrementCount, decrementCount, setCount }: CounterProps) {
     return (
         <div className='pickCount'>
             <button
