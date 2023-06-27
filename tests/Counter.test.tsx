@@ -8,6 +8,7 @@ const incrementMock = vi.fn()
 const decrementMock = vi.fn()
 const mockSetCount = vi.fn()
 const mockCheckCount = vi.fn()
+
 const counterProps = {
     count: 2,
     incrementCount: incrementMock,
@@ -16,7 +17,7 @@ const counterProps = {
     setCount: mockSetCount
 }
 
-describe('Counter', () => {
+describe('Counter component', () => {
 
     afterEach(() => {
         vi.restoreAllMocks()
@@ -51,7 +52,6 @@ describe('Counter', () => {
     it('setcount function is called once per key press', async () => {
         counterProps.count = 20;
         render(<Counter {...counterProps} />)
-        screen.debug()
         await userEvent.type(screen.getByRole('spinbutton'), '10')
         expect(mockSetCount).toHaveBeenCalledTimes(2)
 
@@ -60,7 +60,6 @@ describe('Counter', () => {
     it('checkCount function is run when user leaves the count input', async () => {
         counterProps.count = 20;
         render(<Counter {...counterProps} />)
-        screen.debug()
         await userEvent.type(screen.getByRole('spinbutton'), '5')
         await userEvent.tab()
         expect(mockCheckCount).toHaveBeenCalledTimes(1)
