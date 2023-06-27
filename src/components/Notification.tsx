@@ -1,4 +1,4 @@
-type NotificationProps = {
+export type NotificationProps = {
   message: string | null | undefined;
 }
 const Notification = ({ message }: NotificationProps) => {
