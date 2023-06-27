@@ -25,7 +25,7 @@ function NameContainer({ names, isPerson, count }: NameContainerProps) {
         </div>
       </div>
     );
-  } else return <div />;
+  } else return null;
 }
 
 export default NameContainer;
