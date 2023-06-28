@@ -144,7 +144,6 @@ describe('App component', () => {
             await userEvent.click(screen.getAllByRole('button')[2])
             //reset button
             await userEvent.click(screen.getAllByRole('button')[4])
-            screen.debug()
             expect(screen.queryByText('Pick 1 Individual from:')).toBeNull()
             expect(screen.queryByText('Adam')).toBeNull()
         })
