@@ -28,16 +28,15 @@ export default function App() {
     setShowResults(false);
 
     if (nameRef.current.value.length === 0) {
-      setError("Please add something to pick!");
-      // setTimeout(() => setError(null), 5000);
+      setError("Item field cannot be empty!");
       return;
     }
 
-    if (count <= 0) {
-      setError("You need to pick at least 1 item or 2 groups!")
-      isPerson ? setCount(1) : setCount(2);
-      return;
-    }
+    // if (count <= 0) {
+    //   setError("You need to pick at least 1 item or 2 groups!")
+    //   isPerson ? setCount(1) : setCount(2);
+    //   return;
+    // }
 
     if (names.includes(nameRef.current.value)) {
       setError("Item has already been added to list.");
@@ -66,7 +65,7 @@ export default function App() {
 
     // error if the number to choose is > than number of items inputted
     else if (count > names.length) {
-      setError("There aren't enough to pick from! Add more items or reduce the number of individuals/groups to pick.");
+      setError("Please add more items to pick from!");
     }
 
     // error if user tries to only choose 1 group
@@ -173,8 +172,9 @@ export default function App() {
           <input
             type='text'
             ref={nameRef}
-            name='inputName'
+            name='addItem'
             maxLength={20}
+            aria-label="addItem"
           />
           <button
             className='btn'

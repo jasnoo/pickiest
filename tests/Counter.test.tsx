@@ -32,6 +32,7 @@ describe('Counter component', () => {
     })
     it('Count field to show correct Count value', async () => {
         render(<Counter {...counterProps} />)
+        expect(screen.getByRole('spinbutton')).toHaveValue(2)
         expect(screen.getByDisplayValue("2")).toBeInTheDocument();
     })
 
