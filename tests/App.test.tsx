@@ -16,6 +16,15 @@ describe('App component', () => {
         vi.restoreAllMocks()
     })
 
+    describe('Header', () => {
+        it('Renders header as expected', () => {
+            render(<App />)
+            expect(screen.getByText('Pickiest'))
+            expect(screen.getByText('The easiest way to pick randomly'))
+        })
+
+    })
+
     describe('Counter Component', () => {
         it('Counter component renders', () => {
             render(<App />)
@@ -217,8 +226,15 @@ describe('App component', () => {
         // it('Using switch toggle clears result', async () => {
         // })
 
+    })
 
-
+    describe('Footer', () => {
+        it('Renders header as expected', () => {
+            render(<App />)
+            expect(screen.getByText(/Made By/i))
+            expect(screen.getByText(/Jasmine N./i))
+            screen.debug()
+        })
 
     })
 })
