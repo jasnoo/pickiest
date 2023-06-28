@@ -5,7 +5,6 @@ export type ResultsProps = {
 }
 function Results({ showResults, results, isPerson }: ResultsProps) {
     if (showResults) {
-        console.log(results)
         return (
             <div className='pickedResults'>
                 <h1>Results</h1>
