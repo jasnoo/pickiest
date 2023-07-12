@@ -96,7 +96,7 @@ button {
 }
 .mainButtonContainer {
   font-size: 1.5em;
-  margin:2em
+  margin:2em 1em;
 }
 .mainButton {
   margin: 0 .5em
